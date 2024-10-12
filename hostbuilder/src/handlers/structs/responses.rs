@@ -580,9 +580,7 @@ impl Level3Update {
                         let buy_quantity = &bid.order_qty;
                         let unique_id = &bid.order_id;
 
-                        {
-                            bid_volume += buy_quantity;
-                        }
+                        bid_volume += buy_quantity;
 
                         let order = NewOpenBuyOrder::new(
                             &order_book.symbol,
@@ -621,9 +619,16 @@ impl Level3Update {
                         let new_buy_quantity = &bid.order_qty;
                         let unique_id = &bid.order_id;
 
-                        {
-                            bid_volume += new_buy_quantity;
-                        }
+                        let buy_quantity = cmd("HGET")
+                            .arg(format!("buy_order:{}", unique_id))
+                            .arg("buy_quantity")
+                            .query_async::<_, String>(&mut bid_connection).await.expect("Failed to get total volume");
+
+                        let buy_quantity = BigDecimal::from_str(&buy_quantity).expect("Failed to convert total volume to BigDecimal");
+
+                        let buy_quantity = (new_buy_quantity - buy_quantity).abs();
+
+                        bid_volume += buy_quantity;
 
                         let order = NewModifiedBuyOrder::new(
                             &order_book.symbol,
@@ -679,9 +684,7 @@ impl Level3Update {
                             .arg("buy_quantity")
                             .arg(&bid.order_qty.to_string());
 
-                        {
-                            bid_volume -= &bid.order_qty;
-                        }
+                        bid_volume -= &bid.order_qty;
 
                         delete_orders.push(&bid.order_id);
                     }
@@ -713,9 +716,7 @@ impl Level3Update {
                         let sell_quantity = &ask.order_qty;
                         let unique_id = &ask.order_id;
 
-                        {
-                            ask_volume += sell_quantity;
-                        }
+                        ask_volume += sell_quantity;
 
                         let order = NewOpenSellOrder::new(
                             &order_book.symbol,
@@ -754,9 +755,16 @@ impl Level3Update {
                         let new_sell_quantity = &ask.order_qty;
                         let unique_id = &ask.order_id;
 
-                        {
-                            ask_volume += new_sell_quantity;
-                        }
+                        let ask_quantity = cmd("HGET")
+                            .arg(format!("ask_order:{}", unique_id))
+                            .arg("ask_quantity")
+                            .query_async::<_, String>(&mut ask_connection).await.expect("Failed to get total volume");
+
+                        let ask_quantity = BigDecimal::from_str(&ask_quantity).expect("Failed to convert total volume to BigDecimal");
+
+                        let ask_quantity = (new_sell_quantity - ask_quantity).abs();
+
+                        ask_volume += ask_quantity;
 
                         let order = NewModifiedSellOrder::new(
                             &order_book.symbol,
@@ -812,9 +820,7 @@ impl Level3Update {
                             .arg("sell_quantity")
                             .arg(&ask.order_qty.to_string());
 
-                        {
-                            ask_volume -= &ask.order_qty;
-                        }
+                        ask_volume -= &ask.order_qty;
 
                         delete_orders.push(&ask.order_id);
                     }
