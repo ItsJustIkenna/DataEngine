@@ -30,6 +30,12 @@ jobs:
         repository: ItsJustIkenna/MessageBrokerEngine
         path: MessageBrokerEngine
 
+    - name: Checkout RedisUtils
+      uses: actions/checkout@v4
+      with:
+        repository: ItsJustIkenna/RedisUtils
+        path: RedisUtils
+
     - name: Build
       run: cd DataEngine/hostbuilder && cargo build --verbose
 
