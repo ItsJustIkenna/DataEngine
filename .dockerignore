@@ -1,0 +1,7 @@
+# Ignore the target directory and other unnecessary files
+target
+.dockerignore
+.git
+.env
+.gitignore
+# Add more files or directories as needed
