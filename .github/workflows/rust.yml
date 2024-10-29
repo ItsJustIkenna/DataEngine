@@ -24,6 +24,12 @@ jobs:
         repository: ItsJustIkenna/DatabaseEngine
         path: DatabaseEngine
 
+    - name: Checkout MessageBrokerEngine
+      uses: actions/checkout@v4
+      with:
+        repository: ItsJustIkenna/MessageBrokerEngine
+        path: MessageBrokerEngine
+
     - name: Build
       run: cd DataEngine/hostbuilder && cargo build --verbose
 
