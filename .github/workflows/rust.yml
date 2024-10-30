@@ -37,6 +37,8 @@ jobs:
         path: RedisUtils
 
     - name: Build
+      env:
+          PROTOC: protoc/bin/protoc
       run: cd DataEngine/hostbuilder && cargo build --verbose
 
     - name: Run tests
