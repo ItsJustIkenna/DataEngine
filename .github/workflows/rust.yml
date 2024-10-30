@@ -36,9 +36,10 @@ jobs:
         repository: ItsJustIkenna/RedisUtils
         path: RedisUtils
 
+    - name: Install protobuf compiler
+      run: sudo apt-get update && sudo apt-get install -y protobuf-compiler
+      
     - name: Build
-      env:
-          PROTOC: protoc/bin/protoc
       run: cd DataEngine/hostbuilder && cargo build --verbose
 
     - name: Run tests
