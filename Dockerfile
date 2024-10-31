@@ -12,7 +12,6 @@ COPY hostbuilder/Cargo.toml hostbuilder/
 RUN cargo fetch
 
 # Copy only necessary files
-COPY src ./src
 COPY hostbuilder ./hostbuilder
 COPY program ./program
 
