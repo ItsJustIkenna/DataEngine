@@ -18,18 +18,6 @@ jobs:
       with:
         repository: ItsJustIkenna/DatabaseEngine
         path: DatabaseEngine
-
-    - name: Checkout MessageBrokerEngine
-      uses: actions/checkout@v4
-      with:
-        repository: ItsJustIkenna/MessageBrokerEngine
-        path: MessageBrokerEngine
-
-    - name: Checkout RedisUtils
-      uses: actions/checkout@v4
-      with:
-        repository: ItsJustIkenna/RedisUtils
-        path: RedisUtils
         
     - uses: actions/checkout@v4
     - name: Build the Docker image
