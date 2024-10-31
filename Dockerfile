@@ -8,7 +8,7 @@ WORKDIR /usr/src/app/DataEngine
 COPY . .
 
 # Copy the DatabaseEngine files from the checked-out path
-COPY DatabaseEngine /usr/src/app/DataEngine/DatabaseEngine
+COPY DatabaseEngine DatabaseEngine
 # Build the project
 RUN cargo build --release
 
