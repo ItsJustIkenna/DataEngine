@@ -6,12 +6,15 @@ WORKDIR /usr/src/dataengine
 
 # Copy the Cargo files separately for dependency caching
 COPY Cargo.toml Cargo.lock ./
+COPY hostbuilder/Cargo.toml hostbuilder/
 
 # Fetch dependencies
 RUN cargo fetch
 
-# Copy the rest of the project files
-COPY . .
+# Copy only necessary files
+COPY src ./src
+COPY hostbuilder ./hostbuilder
+COPY program ./program
 
 # Build the main module
 RUN cargo build --release --manifest-path=program/Cargo.toml
