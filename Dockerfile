@@ -2,7 +2,7 @@
 FROM rust:latest
 
 # Set the working directory
-WORKDIR /usr/src/app
+WORKDIR /usr/src/dataengine
 
 # Copy the Cargo files separately for dependency caching
 COPY Cargo.toml Cargo.lock ./
