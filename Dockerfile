@@ -2,24 +2,19 @@
 FROM rust:latest
 
 # Set the working directory
-WORKDIR /usr/src/dataengine
+WORKDIR /usr/src/app
 
-# Copy the Cargo files separately for dependency caching
-COPY Cargo.toml Cargo.lock ./
-COPY hostbuilder/Cargo.toml hostbuilder/
+# Clone the DatabaseEngine repository
+RUN git clone https://github.com/ItsJustIkenna/DatabaseEngine.git
 
-# Fetch dependencies
-RUN cargo fetch
+# Copy the DataEngine files
+COPY . .
 
-# Copy only necessary files
-COPY hostbuilder ./hostbuilder
-COPY program ./program
+# Set the working directory to DataEngine
+WORKDIR /usr/src/app/DataEngine
 
-# Build the main module
-RUN cargo build --release --manifest-path=program/Cargo.toml
-
-# Expose the port your service runs on
-EXPOSE 12345
+# Build the project
+RUN cargo build --release
 
 # Run the main application binary
 CMD ["./target/release/program"]
