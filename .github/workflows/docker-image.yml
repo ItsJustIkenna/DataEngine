@@ -13,12 +13,12 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout DatabaseEngine
-      uses: actions/checkout@v4
-      with:
-        repository: ItsJustIkenna/DatabaseEngine
-        path: DatabaseEngine
-        
-    - uses: actions/checkout@v4
-    - name: Build the Docker image
-      run: docker build . --file Dockerfile --tag prodtradingbotregistry.azurecr.io/dataengine/dataengine-image:v1.0.0-$(date +%s)
+      - uses: actions/checkout@v4
+      - name: Checkout DatabaseEngine
+        uses: actions/checkout@v4
+        with:
+          repository: ItsJustIkenna/DatabaseEngine
+          path: DatabaseEngine
+          
+      - name: Build the Docker image
+        run: docker build . --file Dockerfile --tag prodtradingbotregistry.azurecr.io/dataengine/dataengine-image:v1.0.0-$(date +%s)
