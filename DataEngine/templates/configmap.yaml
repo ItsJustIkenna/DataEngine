@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: data-engine-configmap
+data:
+  data-engine-server-configuration: |
+    data-engine-server-settings:
+      address: '127.0.0.1'
+      port: '8000'
+  
+  message-broker-engine-configuration: |
+    message-broker-engine-settings:
+      address: '127.0.0.1'
+      port: '8001'
+
+  topics: |
+    - 'order-data'
+    - 'trade-data'
+  
+  exchanges: |
+    - exchange: 'Kraken'
+      websocket-token: 'https://api.kraken.com/0/private/GetWebSocketsToken'
+      symbols:
+        - 'BTC/USD'
+      apis:
+        - websockets:
+            - channel: 'level3'
+              endpoint: 'wss://ws-auth.kraken.com/v2'
+            - channel: 'trade'
+              endpoint: 'wss://ws.kraken.com/v2'

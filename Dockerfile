@@ -1,5 +1,5 @@
 # Use the official Rust image
-FROM rust:latest
+FROM rust:alpine
 
 # Set the working directory to DataEngine
 WORKDIR /usr/src/app/DataEngine

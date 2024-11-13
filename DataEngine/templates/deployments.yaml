@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: data-engine-deployment
+  labels:
+    app: data-engine
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: data-engine
+  template:
+    metadata:
+      labels:
+        app: data-engine
+    spec:
+      containers:
+      - name: data-engine
+        image: rust:alpine
+        ports:
+        - containerPort: 8080
