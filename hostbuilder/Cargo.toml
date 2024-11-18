@@ -39,7 +39,3 @@ uuid = { version = "1.10.0", features = ["serde", "v4"] }
 
 [build-dependencies]
 prost-build = "0.13.1"
-
-[lib]
-name = "hostbuilder_lib"
-path = "src/lib.rs"

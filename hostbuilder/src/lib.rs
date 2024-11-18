@@ -15,7 +15,6 @@ use handlers::{
     websockets::kraken_websocket_handler::KrakenWebSocketHandler,
 };
 use mockall::automock;
-use publisher::Publisher;
 use redis::cmd;
 use redis_utils::{create_redis_connection, create_redis_pool};
 use serde_json::json;
@@ -33,7 +32,6 @@ pub trait HostedObjectTrait {
 
 pub struct HostedObject {
     config: Config,
-    publisher: Publisher,
     redis_pool: Arc<Pool<Manager, Connection>>,
     postgres_pool: Arc<Pool<CustomAsyncPgConnectionManager>>,
 }
@@ -46,24 +44,11 @@ impl HostedObject {
     pub async fn new() -> Result<Self> {
         let path = "C:/Users/ikenn/TradingPlatform/DataEngine/appsettings.json";
         let config = Config::new(path)?;
-        let addr = format!(
-            "{}:{}",
-            config
-                .message_broker_server_configuration
-                .message_broker_server_settings
-                .address,
-            config
-                .message_broker_server_configuration
-                .message_broker_server_settings
-                .port
-        );
-        let publisher = Publisher::new(&addr).await?;
         let redis_pool = Arc::new(create_redis_pool().expect("Failed to create Redis pool"));
         let postgres_pool = Arc::new(establish_connection_pool());
 
         Ok(Self {
             config,
-            publisher,
             redis_pool,
             postgres_pool,
         })
