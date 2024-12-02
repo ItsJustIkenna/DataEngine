@@ -1,6 +1,7 @@
-use anyhow::{Context, Result};
 use serde::{Deserialize, Serialize};
+use serde_yaml;
 use std::fs;
+use anyhow::{Context, Result};
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
 pub struct Config {
@@ -11,13 +12,13 @@ pub struct Config {
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
-pub struct MessageBrokerServerConfiguration {
-    pub message_broker_server_settings: ServerSettings,
+pub struct DataEngineServerConfiguration {
+    pub data_engine_server_settings: ServerSettings,
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
-pub struct DataEngineServerConfiguration {
-    pub data_engine_server_settings: ServerSettings,
+pub struct MessageBrokerServerConfiguration {
+    pub message_broker_server_settings: ServerSettings,
 }
 
 #[derive(Clone, Serialize, Deserialize, Debug)]
@@ -49,8 +50,8 @@ impl Config {
     pub fn new(file_path: &str) -> Result<Self> {
         let config_data = fs::read_to_string(file_path)
             .with_context(|| format!("Unable to read file: {}", file_path))?;
-        let config = serde_json::from_str(&config_data)
-            .context("JSON was not well-formatted")?;
+        let config: Config = serde_yaml::from_str(&config_data)
+            .context("YAML was not well-formatted")?;
         Ok(config)
     }
 }

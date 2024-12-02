@@ -1,0 +1,45 @@
+ApiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: timescale
+spec:
+    selectors:
+        matchLabels:
+            app: timescale
+    serviceName: "timescale"
+    replicas: 3
+    template:
+        metadata:
+            labels:
+                app: timescale
+        spec:
+            terminationGracePeriodSeconds: 10
+            containers:
+            - name: timescale
+              image: timescale/timescaledb:latest-pg16
+              ports:
+              - containerPort: 32935
+                name: timescale
+            - volumeMounts:
+                - name: timescale-storage
+                  mountPath: /var/lib/postgresql/data
+              env:
+              - name: POSTGRES_USER
+                valueFrom:
+                    secretKeyRef:
+                        name: timescale-secret
+                        key: timescale-root-username
+              - name: POSTGRES_PASSWORD
+                valueFrom:
+                    secretKeyRef:
+                        name: timescale-secret
+                        key: timescale-root-password
+    volumeClaimTemplates:
+    - metadata:
+        name: timescale-storage
+      spec:
+        accessModes: [ "ReadWriteOnce" ]
+        storageClassName: "standard"
+        resources:
+          requests:
+            storage: 1Gi

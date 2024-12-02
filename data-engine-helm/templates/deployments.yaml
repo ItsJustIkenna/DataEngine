@@ -19,3 +19,16 @@ spec:
         image: rust:alpine
         ports:
         - containerPort: 8080
+        env:
+        - name: CONFIG_PATH
+          value: "/etc/config/config.yaml"
+        volumeMounts:
+        - name: config-volume
+          mountPath: /etc/config
+      volumes:
+      - name: config-volume
+        configMap:
+          name: data-engine-configmap
+          items:
+            - key: config.yaml
+              path: config.yaml

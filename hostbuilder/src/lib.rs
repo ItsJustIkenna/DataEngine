@@ -18,7 +18,7 @@ use mockall::automock;
 use redis::cmd;
 use redis_utils::{create_redis_connection, create_redis_pool};
 use serde_json::json;
-use std::sync::Arc;
+use std::{env, sync::Arc};
 use tokio::{signal, sync::broadcast::channel};
 use tracing::{error, info};
 
@@ -42,8 +42,8 @@ impl HostedObject {
     }
 
     pub async fn new() -> Result<Self> {
-        let path = "C:/Users/ikenn/TradingPlatform/DataEngine/appsettings.json";
-        let config = Config::new(path)?;
+        let config_path = env::var("CONFIG_PATH").expect("CONFIG_PATH must be set");
+        let config = Config::new(&config_path)?;
         let redis_pool = Arc::new(create_redis_pool().expect("Failed to create Redis pool"));
         let postgres_pool = Arc::new(establish_connection_pool());
 
