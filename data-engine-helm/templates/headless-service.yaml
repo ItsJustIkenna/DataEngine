@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: timescale
+spec:
+  clusterIP: None
+  selector:
+    app: data-engine
+  ports:
+  - port: 32935
+    targetPort: 32935
+    name: timescale

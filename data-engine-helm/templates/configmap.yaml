@@ -3,6 +3,9 @@ kind: ConfigMap
 metadata:
   name: data-engine-configmap
 data:
+  POSTGRES_DB: "tsdb"
+  POSTGRES_HOST: "a7rc4ub9o7.yd4ed8gjcp.tsdb.cloud.timescale.com"
+  POSTGRES_PORT: "32935"
   config.yaml: |
     data_engine_server_configuration:
       data_engine_server_settings:

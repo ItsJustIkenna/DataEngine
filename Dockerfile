@@ -25,4 +25,4 @@ RUN cargo build
 RUN cargo test
 
 # Run the main application binary
-CMD ["./target/release/program"]
+RUN cargo run
